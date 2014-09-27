@@ -23,7 +23,7 @@
         <header-file src="src/ios/EstimoteBeacons.h" />
         <header-file src="src/ios/ESTBeaconVO.h" />
         <header-file src="src/ios/ESTBeaconFirmwareVO.h" />
-        <header-file src="src/ios/ESTBeaconFirmwareInforVO.h" />
+        <header-file src="src/ios/ESTBeaconFirmwareInfoVO.h" />
         <source-file src="src/ios/EstimoteBeacons.m" />
 
     	<config-file target="config.xml" parent="/*">
