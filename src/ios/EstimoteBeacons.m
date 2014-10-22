@@ -20,12 +20,6 @@
     NSLog(@"Estimote: init");
     // craete manager instance
 
-
-    
-
-
-
-
     self.placeholderUUID = @"B9407F30-F5F8-466E-AFF9-25556B57FE6D";
 
     self.beaconManager = [[ESTBeaconManager alloc] init];
@@ -79,6 +73,8 @@
 - (void)startMonitoringForRegion:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"Estimote: startMonitoringForRegion");
+    NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager CLAuthorizationStatus]);
+    
     NSString* regionid = [command.arguments objectAtIndex:0];
     id major = [command.arguments objectAtIndex:1];
     id minor = [command.arguments objectAtIndex:2];
