@@ -20,6 +20,25 @@
     NSLog(@"Estimote: init");
     // craete manager instance
 
+
+    //ios8 location stuff
+    #ifdef __IPHONE_8_0
+        NSUInteger code = [CLLocationManager authorizationStatus];
+        
+        if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]){
+            [self.locationManager requestAlwaysAuthorization];
+        } else if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"]) {
+            [self.locationManager  requestWhenInUseAuthorization];
+        } else {
+            NSLog(@"[Warning] No NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key is defined in the Info.plist file.");
+        }
+            return;
+
+    #endif
+
+
+
+
     self.placeholderUUID = @"B9407F30-F5F8-466E-AFF9-25556B57FE6D";
 
     self.beaconManager = [[ESTBeaconManager alloc] init];
