@@ -13,6 +13,7 @@
 
 @property (nonatomic, copy) NSString *onEnter;
 @property (nonatomic, copy) NSString *onExit;
+@property (nonatomic, copy) NSString *placeholderUUID;
 
 @end
 
