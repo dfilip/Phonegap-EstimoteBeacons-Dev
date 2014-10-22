@@ -21,20 +21,7 @@
     // craete manager instance
 
 
-    //ios8 location stuff
-    #ifdef __IPHONE_8_0
-        NSUInteger code = [CLLocationManager authorizationStatus];
-        
-        if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"]){
-            [self.locationManager requestAlwaysAuthorization];
-        } else if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"]) {
-            [self.locationManager  requestWhenInUseAuthorization];
-        } else {
-            NSLog(@"[Warning] No NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key is defined in the Info.plist file.");
-        }
-            return;
-
-    #endif
+    
 
 
 
@@ -44,6 +31,13 @@
     self.beaconManager = [[ESTBeaconManager alloc] init];
     self.beaconManager.delegate = self;
     self.beaconManager.avoidUnknownStateBeacons = YES;
+
+
+    //ios8 location stuff
+    #ifdef __IPHONE_8_0
+        [self.beaconManager requestAlwaysAuthorization];
+
+    #endif
 
     // create sample region object (you can additionaly pass major / minor values)
     self.currentRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:self.placeholderUUID] identifier:self.placeholderUUID];

@@ -33,7 +33,7 @@
         </config-file>
 
         <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
-            <string></string>
+            <string>This application uses your location to determine if you are in close proximity to vendors.</string>
         </config-file>
 	</platform>
 </plugin>
