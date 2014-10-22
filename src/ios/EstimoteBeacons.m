@@ -27,7 +27,7 @@
     self.beaconManager.avoidUnknownStateBeacons = YES;
 
     // create sample region object (you can additionaly pass major / minor values)
-    self.currentRegion = [[ESTBeaconRegion alloc] self.placeholderUUID];
+    self.currentRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:self.placeholderUUID] identifier:self.placeholderUUID];
 
     // region watchers
     self.regionWatchers = [[NSMutableDictionary alloc] init];
@@ -414,7 +414,7 @@
 - (void)updateFirmwareOfConnectedBeacon:(CDVInvokedUrlCommand*)command
 {
     if(self.connectedBeacon != nil) {
-        [self.connectedBeacon updateFirmwareWithProgress:^(NSString *value, NSString *description, NSError *error){
+        [self.connectedBeacon updateFirmwareWithProgress:^(NSInteger value, NSString *description, NSError *error){
             if(error == nil) {
                 self.firmwareUpdateProgress = value;
             }
