@@ -74,7 +74,7 @@
 {
     NSLog(@"Estimote: startMonitoringForRegion");
     NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager CLAuthorizationStatus]);
-    
+
     NSString* regionid = [command.arguments objectAtIndex:0];
     id major = [command.arguments objectAtIndex:1];
     id minor = [command.arguments objectAtIndex:2];
@@ -82,6 +82,7 @@
     self.onExit = [command.arguments objectAtIndex:5];
 
     if([self.regionWatchers objectForKey:regionid] != nil) {
+        NSLog(@"Estimote: Region with given ID is already monitored.");
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Region with given ID is already monitored."] callbackId:command.callbackId];
     } else {
         ESTBeaconRegion* region;
@@ -511,27 +512,35 @@
 {
 
     NSLog(@"Estimote: didDiscoverBeacons");
-    self.beacons = beacons;
 
-    //NSMutableDictionary *bcns = [beacons mutableCopy];
-    NSError *error;
+    @try{
+        self.beacons = beacons;
 
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:beacons
-                                                   options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
-                                                     error:&error];
-    if (! jsonData) {
-        NSLog(@"Estimote: %@", error);
-    } else {
+        //NSMutableDictionary *bcns = [beacons mutableCopy];
+        NSError *error;
 
-        NSLog(@"Estimote: about to create jsonStr");
-        NSLog(@"Estimote: jsonData: %@",jsonData);
-        NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:beacons
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+        if (! jsonData) {
+            NSLog(@"Estimote: %@", error);
+        } else {
 
-        NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.onEnter, jsonStr];
-        NSLog(@"jsCallBack: %@",jsCallBack);
-        [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-        NSLog(@"Estimote: didDiscoverBeacons");
+            NSLog(@"Estimote: about to create jsonStr");
+            NSLog(@"Estimote: jsonData: %@",jsonData);
+            NSString *jsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+            NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.onEnter, jsonStr];
+            NSLog(@"jsCallBack: %@",jsCallBack);
+            [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+            NSLog(@"Estimote: didDiscoverBeacons");
+        }
+
     }
+    @catch(NSException *e){
+        NSLog(@"Estimote Error: %@", exception.reason);
+    }
+
 
 
 
@@ -598,6 +607,9 @@
         default:
             result = @"unknown";
     }
+
+    NSLog(@"Estimote: didDetermineState: $@",result);
+    NSLog(@"Estimote: region=%@",(NSString*)region.proximityUUID);
 
     NSString* callbackId = [self.regionWatchers objectForKey:region.identifier];
 
