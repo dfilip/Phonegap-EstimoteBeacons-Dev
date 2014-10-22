@@ -416,7 +416,7 @@
     if(self.connectedBeacon != nil) {
         [self.connectedBeacon updateFirmwareWithProgress:^(NSInteger value, NSString *description, NSError *error){
             if(error == nil) {
-                self.firmwareUpdateProgress = value;
+                self.firmwareUpdateProgress = description;
             }
 
         } completion:^(NSError *error){
