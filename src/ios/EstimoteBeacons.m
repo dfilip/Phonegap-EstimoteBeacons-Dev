@@ -73,7 +73,7 @@
 - (void)startMonitoringForRegion:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"Estimote: startMonitoringForRegion");
-    NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager CLAuthorizationStatus]);
+    NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager authorizationStatus]);
 
     NSString* regionid = [command.arguments objectAtIndex:0];
     id major = [command.arguments objectAtIndex:1];
@@ -538,7 +538,7 @@
 
     }
     @catch(NSException *e){
-        NSLog(@"Estimote Error: %@", exception.reason);
+        NSLog(@"Estimote Error: %@", e.reason);
     }
 
 
@@ -608,7 +608,7 @@
             result = @"unknown";
     }
 
-    NSLog(@"Estimote: didDetermineState: $@",result);
+    NSLog(@"Estimote: didDetermineState: %@",result);
     NSLog(@"Estimote: region=%@",(NSString*)region.proximityUUID);
 
     NSString* callbackId = [self.regionWatchers objectForKey:region.identifier];
