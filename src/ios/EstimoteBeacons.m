@@ -73,7 +73,7 @@
 - (void)startMonitoringForRegion:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"Estimote: startMonitoringForRegion");
-    NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager authorizationStatus]);
+    //NSLog(@"Estimote: AuthorizationStatus:%@",[self.beaconManager authorizationStatus]);
 
     NSString* regionid = [command.arguments objectAtIndex:0];
     id major = [command.arguments objectAtIndex:1];
