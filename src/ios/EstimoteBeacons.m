@@ -516,10 +516,20 @@
     @try{
         self.beacons = beacons;
 
+        NSMutableArray* output = [NSMutableArray array];
+
+        if([self.beacons count] > 0)
+        {
+            //convert list of beacons to a an array of simple property-value objects
+            for (id beacon in self.beacons) {
+                [output addObject:[self beaconToDictionary:beacon]];
+            }
+        }
+
         //NSMutableDictionary *bcns = [beacons mutableCopy];
         NSError *error;
 
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:beacons
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:output
                                                        options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
         if (! jsonData) {
