@@ -28,10 +28,13 @@
 
 
     //ios8 location stuff
-    #ifdef __IPHONE_8_0
+    @try{
         [self.beaconManager requestAlwaysAuthorization];
+    }@catch(NSException *e){
+        NSLog(e.reason);
+    }
+    
 
-    #endif
 
     // create sample region object (you can additionaly pass major / minor values)
     self.currentRegion = [[ESTBeaconRegion alloc] initWithProximityUUID:[[NSUUID alloc] initWithUUIDString:self.placeholderUUID] identifier:self.placeholderUUID];
